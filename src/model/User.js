@@ -29,7 +29,7 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        point: {
+        cash: {
           type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,
           defaultValue: 0,
