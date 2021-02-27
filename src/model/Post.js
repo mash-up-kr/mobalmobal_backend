@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     Post.init({
+        post_id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         user_id: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
@@ -23,36 +29,24 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        start_date: {
+        started_at: {
             type: DataTypes.DATE,
             allowNull: false,
         },
-        end_date: {
+        end_at: {
             type: DataTypes.DATE,
             allowNull: false,
         },
-        image: {
+        post_image: {
             type: DataTypes.TEXT,
-            allowNull: true,
-        },
-        created_at: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-        },
-        updated_at: {
-            type: DataTypes.DATE,
-            allowNull: true,
-        },
-        deleted_at: {
-            type: DataTypes.DATE,
             allowNull: true,
         },
     }, {
         sequelize,
         modelName: 'Post',
         tableName: 'post',
-        timestamps: false,
+        underscored: true,
+        timestamps: true,
         paranoid: true,
         deletedAt: 'deleted_at',
         charset: 'utf8',
