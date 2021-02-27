@@ -55,5 +55,6 @@ module.exports = class User extends Sequelize.Model {
   }
   static associate(db) {
     //TODO@(mango906): 외래키 연걸해주기
+    this.hasMany(db.Post, { foreignKey: 'user_id', sourceKey: 'user_id' });
   }
 };
