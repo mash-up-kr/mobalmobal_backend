@@ -34,8 +34,8 @@ module.exports = class Donate extends Sequelize.Model {
       }
     );
   }
-  static associate(model) {
-    this.belongsTo(model.User, { foreignKey: 'user_id', targetKey: 'user_id' });
-    this.belongsTo(model.Post, { foreignKey: 'post_id', targetKey: 'post_id' });
+  static associate(models) {
+    this.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'user_id' });
+    this.belongsTo(models.Post, { foreignKey: 'post_id', targetKey: 'post_id' });
   }
 };

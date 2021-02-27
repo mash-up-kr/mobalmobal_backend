@@ -16,14 +16,16 @@ db.Post = Post;
 db.Charge = Charge;
 db.Donate = Donate;
 
-User.init(sequelize);
-Post.init(sequelize);
-Charge.init(sequelize);
-Donate.init(sequelize);
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].init) {
+    db[modelName].init(sequelize);
+  }
+});
 
-User.associate(db);
-Post.associate(db);
-Charge.associate(db);
-Donate.associate(db);
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
 module.exports = db;
