@@ -34,7 +34,8 @@ module.exports = class Donate extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    //TODO(@mango906): 외래키 연결해주기
+  static associate(models) {
+    this.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'user_id' });
+    this.belongsTo(models.Post, { foreignKey: 'post_id', targetKey: 'post_id' });
   }
 };

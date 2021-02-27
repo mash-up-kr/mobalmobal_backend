@@ -34,7 +34,7 @@ module.exports = class Charge extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    // TODO(@mango906): User완성되면 User 외래키로 묶기
+  static associate(models) {
+    this.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'user_id' });
   }
 };

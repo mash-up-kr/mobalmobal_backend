@@ -17,12 +17,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 
-sequelize.sync({ forcs: false })
-.then(() => {
-    console.log("DB 연결 성공");
-})
-.catch((err) => {
+sequelize
+  .sync({ forcs: false })
+  .then(() => {
+    console.log('DB 연결 성공');
+  })
+  .catch((err) => {
     console.error(err);
-});
+  });
 
 module.exports = app;
