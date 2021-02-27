@@ -7,7 +7,6 @@ const operator = {
 }
 
 const getAll = async ({ item, limit, order }) => {
-    console.log(item)
     const posts = await Post.findAll({
         where: {
             createdAt: {
