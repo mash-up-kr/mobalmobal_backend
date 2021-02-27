@@ -38,6 +38,50 @@ const login = async (req, res) => {
   }
 };
 
+
+const create = async (req, res) => {
+  try {
+    const { nickname, cash, provider, fireStoreId, ...values } = req.body;
+
+    if (!nickname || !provider || !fireStoreId) {
+      let error = new Error("필수 정보입니다.");
+      error.name = "BAD_REQUEST";
+      throw error;
+    }
+
+    const result = await userService.insertUser({ nickname, cash, provider, fireStoreId, ...values });
+
+    if (!result) {
+      throw Error("회원가입 실패");
+    }
+
+    // 로그인 로직
+    const user = await userService.getByFireStoreId(fireStoreId);
+    if (!user) {
+      throw Error("회원가입 실패");
+    }
+    res.status(statusCode.OK).json({
+      data: {
+        token: jwt.sign(user),
+      },
+      code: statusCode.OK,
+    });
+    
+  } catch (error) {
+    if (error.name === "BAD_REQUEST") {
+      return res.status(statusCode.OK).json({
+        code: statusCode[error.name],
+        message: error.message
+      });
+    }
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({
+        code: statusCode.INTERNAL_SERVER_ERROR,
+        message: error.message
+    });
+  }
+};
+
 module.exports = {
   login,
+  create,
 };
