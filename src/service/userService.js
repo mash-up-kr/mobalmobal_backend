@@ -30,12 +30,7 @@ const insertUser = async ({ nickname, cash, provider, fireStoreId, ...values }) 
 
   cash = cash || 0;
 
-  values = Object.entries(values).map(([k, v]) => {
-    return [k.replace(/[A-Z]/g, (match) => "_" + match.toLowerCase()), v];
-  }).reduce((acc, [k, v]) => {
-    acc[k] = v;
-    return acc;
-  }, {});
+  values = camelToSnakeCase(values);
   
   const user = await User.create({
     nickname,
@@ -50,4 +45,13 @@ const insertUser = async ({ nickname, cash, provider, fireStoreId, ...values }) 
 module.exports = {
   getByFireStoreId,
   insertUser,
+};
+
+const camelToSnakeCase = (params) => {
+  return Object.entries(params).map(([k, v]) => {
+    return [k.replace(/[A-Z]/g, (match) => "_" + match.toLowerCase()), v];
+  }).reduce((acc, [k, v]) => {
+    acc[k] = v;
+    return acc;
+  }, {});
 };
