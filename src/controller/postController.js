@@ -24,6 +24,32 @@ const getAll = async (req, res) => {
     }
 }
 
+const getById = async (req, res) => {
+  try{
+    let { post_id } = req.params;
+    const post = await postService.getById(post_id);
+
+    if(!post){
+      res.status(statusCode.OK).json({
+        code: statusCode.BAD_REQUEST,
+        message: '유효하지 않은 id 값입니다.'
+      });
+    }
+
+    res.status(statusCode.OK).json({
+      code: statusCode.OK,
+      data: { post }
+    })
+
+  } catch(err){
+    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
+      code: statusCode.INTERNAL_SERVER_ERROR,
+      message: err.message
+    })
+  }
+}
+
 module.exports = {
-    getAll
+    getAll,
+    getById
 }
