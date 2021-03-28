@@ -8,7 +8,7 @@ const login = async (req, res) => {
     const { fireStoreId } = req.body;
 
     if (!fireStoreId) {
-      res.status(statusCode.OK).json({
+      res.status(statusCode.BAD_REQUEST).json({
         code: statusCode.BAD_REQUEST,
         message: 'fireStoreId 필수 값입니다.',
       });
@@ -17,7 +17,7 @@ const login = async (req, res) => {
     const user = await userService.getByFireStoreId(fireStoreId);
 
     if (!user) {
-      res.status(statusCode.OK).json({
+      res.status(statusCode.NOT_FOUND).json({
         code: statusCode.NOT_FOUND,
         message: '회원가입이 필요합니다.',
       });
@@ -68,7 +68,7 @@ const create = async (req, res) => {
     });
   } catch (error) {
     if (error.name === 'BAD_REQUEST') {
-      return res.status(statusCode.OK).json({
+      return res.status(statusCode[error.name]).json({
         code: statusCode[error.name],
         message: error.message,
       });
