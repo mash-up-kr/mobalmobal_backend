@@ -68,7 +68,7 @@ const create = async (req, res) => {
     });
   } catch (error) {
     if (error.name === 'BAD_REQUEST') {
-      return res.status(statusCode.OK).json({
+      return res.status(statusCode[error.name]).json({
         code: statusCode[error.name],
         message: error.message,
       });
