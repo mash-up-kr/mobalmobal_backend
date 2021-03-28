@@ -30,7 +30,7 @@ const getById = async (req, res) => {
     const post = await postService.getById(post_id);
 
     if(!post){
-      res.status(statusCode.OK).json({
+      res.status(statusCode.BAD_REQUEST).json({
         code: statusCode.BAD_REQUEST,
         message: '유효하지 않은 id 값입니다.'
       });
