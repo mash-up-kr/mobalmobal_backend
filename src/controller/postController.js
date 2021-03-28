@@ -31,8 +31,8 @@ const getById = async (req, res) => {
     const { post_id } = req.params;
     const post = await postService.getById(post_id);
 
-    if (!post) {
-      res.status(statusCode.OK).json({
+    if(!post){
+      res.status(statusCode.BAD_REQUEST).json({
         code: statusCode.BAD_REQUEST,
         message: '유효하지 않은 id 값입니다.',
       });
@@ -60,7 +60,7 @@ const addPost = async (req, res) => {
     const { title, goal, started_at, end_at } = postParams;
 
     if (!title || !goal || !started_at || !end_at) {
-      res.status(statusCode.OK).json({
+      res.status(statusCode.BAD_REQUEST).json({
         code: statusCode.BAD_REQUEST,
         message: '올바르지 않은 인자값입니다.',
       });
