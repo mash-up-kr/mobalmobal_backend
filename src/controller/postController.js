@@ -70,7 +70,7 @@ const addPost = async (req, res) => {
 
     res.status(statusCode.OK).json({
       code: statusCode.OK,
-      data: post,
+      data: { post },
     });
   } catch (err) {
     res.status(statusCode.INTERNAL_SERVER_ERROR).json({
