@@ -89,7 +89,7 @@ const getUser = async (req, res) => {
 
     return res.status(statusCode.OK).json({
       code: statusCode.OK,
-      data: user,
+      data: { user },
     });
   } catch (err) {
     res.status(err.status).json({
