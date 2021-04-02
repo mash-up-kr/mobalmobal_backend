@@ -3,7 +3,7 @@ const statusCode = require('./statusCode');
 
 const authUtil = {
     isLoggedin: async(req, res, next) => {
-        var token = req.headers.token;
+        var token = req.headers.authorization;
         if (!token) {
             return res.json({
                 code: statusCode.BAD_REQUEST, 
@@ -23,7 +23,7 @@ const authUtil = {
                     data: "잘못된 형식의 토큰입니다."
                 });
             } else {
-                req.decoded = user;
+                req.decode = user;
                 next();
             }
         }
