@@ -1,20 +1,20 @@
 const Post = require('../model/Post');
 const { Op } = require('sequelize');
 
-const operator = {
-  DESC: Op.lt,
-  ASC: Op.gt,
-};
-
 const getAll = async ({ item, limit, order }) => {
+  let where = {}
+  if ( order === "DESC") {
+    where = { 
+      post_id: {
+        [Op.lt]: item
+      }
+    }
+  }
   const posts = await Post.findAll({
-    where: {
-      createdAt: {
-        [operator[order]]: item,
-      },
-    },
+    where,
     order: [['createdAt', order]],
-    limit,
+    limit: parseInt(limit),
+    offset: parseInt(item),
   });
   return posts;
 };
