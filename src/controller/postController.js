@@ -64,6 +64,42 @@ const addPost = async (req, res) => {
       data: { post },
     });
   } catch (err) {
+    if (err.status) {
+      res.status(err.status).json({
+        code: err.status,
+        message: err.message,
+      });
+
+      return;
+    }
+
+    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
+      code: statusCode.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    });
+  }
+};
+
+const getMyPost = async (req, res) => {
+  try {
+    const user_id = req.decode.user_id;
+
+    const posts = await postService.myPost(user_id);
+
+    res.status(statusCode.OK).json({
+      code: statusCode.OK,
+      data: { posts },
+    });
+  } catch (err) {
+    if (err.status) {
+      res.status(err.status).json({
+        code: err.status,
+        message: err.message,
+      });
+
+      return;
+    }
+
     res.status(statusCode.INTERNAL_SERVER_ERROR).json({
       code: statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
@@ -75,4 +111,5 @@ module.exports = {
   getAll,
   getById,
   addPost,
+  getMyPost,
 };

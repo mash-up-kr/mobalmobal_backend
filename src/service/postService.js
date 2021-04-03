@@ -2,13 +2,13 @@ const Post = require('../model/Post');
 const { Op } = require('sequelize');
 
 const getAll = async ({ item, limit, order }) => {
-  let where = {}
-  if ( order === "DESC") {
-    where = { 
+  let where = {};
+  if (order === 'DESC') {
+    where = {
       post_id: {
-        [Op.lt]: item
-      }
-    }
+        [Op.lt]: item,
+      },
+    };
   }
   const posts = await Post.findAll({
     where,
@@ -35,8 +35,20 @@ const addPost = async (post) => {
   return postDoc;
 };
 
+const myPost = async (userId) => {
+  const posts = await Post.findAll({
+    where: {
+      user_id: userId,
+    },
+    order: [['createdAt', 'DESC']],
+  });
+
+  return posts;
+};
+
 module.exports = {
   getAll,
   getById,
   addPost,
+  myPost,
 };
