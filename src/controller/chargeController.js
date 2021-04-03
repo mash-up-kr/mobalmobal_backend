@@ -6,9 +6,7 @@ const statusCode = require('../module/statusCode');
 const createCharge = async (req, res) => {
   try {
     const chargeParams = req.body;
-    const jwtToken = req.headers.authorization;
-
-    const user_id = getSessionUserId(jwtToken);
+    const user_id = req.decode.user_id;
 
     const { amount, user_name, charged_at } = chargeParams;
 
