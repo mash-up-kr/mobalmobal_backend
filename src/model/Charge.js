@@ -14,6 +14,14 @@ module.exports = class Charge extends Sequelize.Model {
           type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,
         },
+        user_name: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        charged_at: {
+          type: 'TIMESTAMP',
+          allowNull: true,
+        },
         amount: {
           type: Sequelize.INTEGER,
           allowNull: false,
