@@ -1,5 +1,4 @@
 const chargeService = require('../service/chargeService');
-const { getSessionUserId } = require('../helper/getSessionUserId');
 const InvalidParameterError = require('../errors/InvalidParameterError');
 const statusCode = require('../module/statusCode');
 

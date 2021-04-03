@@ -1,17 +1,14 @@
 const userService = require('../service/userService');
 const statusCode = require('../module/statusCode');
 const jwt = require('../module/jwt');
-const { getSessionUserId } = require('../helper/getSessionUserId');
+const InvalidParameterError = require('../errors/InvalidParameterError');
 
 const login = async (req, res) => {
   try {
     const { fireStoreId } = req.body;
 
     if (!fireStoreId) {
-      res.status(statusCode.BAD_REQUEST).json({
-        code: statusCode.BAD_REQUEST,
-        message: 'fireStoreId 필수 값입니다.',
-      });
+      throw new InvalidParameterError();
     }
 
     const user = await userService.getByFireStoreId(fireStoreId);
@@ -44,22 +41,14 @@ const create = async (req, res) => {
     const { nickname, cash, provider, fireStoreId, ...values } = req.body;
 
     if (!nickname || !provider || !fireStoreId) {
-      let error = new Error('필수 정보입니다.');
-      error.name = 'BAD_REQUEST';
-      throw error;
+      throw new InvalidParameterError();
     }
 
     const result = await userService.insertUser({ nickname, cash, provider, fireStoreId, ...values });
 
-    if (!result) {
-      throw Error('회원가입 실패');
-    }
-
     // 로그인 로직
     const user = await userService.getByFireStoreId(fireStoreId);
-    if (!user) {
-      throw Error('회원가입 실패');
-    }
+
     res.status(statusCode.OK).json({
       data: {
         token: jwt.sign(user),
@@ -67,12 +56,6 @@ const create = async (req, res) => {
       code: statusCode.OK,
     });
   } catch (error) {
-    if (error.name === 'BAD_REQUEST') {
-      return res.status(statusCode[error.name]).json({
-        code: statusCode[error.name],
-        message: error.message,
-      });
-    }
     return res.status(statusCode.INTERNAL_SERVER_ERROR).json({
       code: statusCode.INTERNAL_SERVER_ERROR,
       message: error.message,
@@ -83,7 +66,7 @@ const create = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const jwtToken = req.headers.authorization;
-    const userId = getSessionUserId(jwtToken);
+    const user_id = req.decode.user_id;
 
     const user = await userService.getByUserId(userId);
 
