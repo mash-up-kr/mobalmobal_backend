@@ -6,7 +6,7 @@ const { getSessionUserId } = require('../helper/getSessionUserId');
 const getAll = async (req, res) => {
   try {
     let { item, limit, order } = req.query;
-    item = item || Date.now();
+    item = item || 0;
     limit = limit || 30;
     order = order || 'DESC';
     const posts = await postService.getAll({
