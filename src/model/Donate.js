@@ -13,7 +13,6 @@ module.exports = class Donate extends Sequelize.Model {
         user_id: {
           type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,
-          unique: true,
         },
         post_id: {
           type: Sequelize.INTEGER.UNSIGNED,
