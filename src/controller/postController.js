@@ -1,7 +1,6 @@
 const postService = require('../service/postService');
 const statusCode = require('../module/statusCode');
-const jwt = require('../module/jwt');
-const { getSessionUserId } = require('../helper/getSessionUserId');
+const InvalidParameterError = require('../errors/InvalidParameterError');
 
 const getAll = async (req, res) => {
   try {
@@ -31,11 +30,8 @@ const getById = async (req, res) => {
     const { post_id } = req.params;
     const post = await postService.getById(post_id);
 
-    if(!post){
-      res.status(statusCode.BAD_REQUEST).json({
-        code: statusCode.BAD_REQUEST,
-        message: '유효하지 않은 id 값입니다.',
-      });
+    if (!post) {
+      throw new InvalidParameterError();
     }
 
     res.status(statusCode.OK).json({
@@ -53,17 +49,12 @@ const getById = async (req, res) => {
 const addPost = async (req, res) => {
   try {
     const postParams = req.body;
-    const jwtToken = req.headers.authorization;
-
-    const user_id = getSessionUserId(jwtToken);
+    const user_id = req.decode.user_id;
 
     const { title, goal, started_at, end_at } = postParams;
 
     if (!title || !goal || !started_at || !end_at) {
-      res.status(statusCode.BAD_REQUEST).json({
-        code: statusCode.BAD_REQUEST,
-        message: '올바르지 않은 인자값입니다.',
-      });
+      throw new InvalidParameterError();
     }
 
     const post = await postService.addPost({ ...postParams, user_id });
