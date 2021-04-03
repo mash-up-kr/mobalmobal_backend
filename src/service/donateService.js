@@ -1,10 +1,10 @@
 const Donate = require('../model/Donate');
 
-const create = async (donate) => {
-    const createDonate = await Donate.create(donate);
-    return createDonate;
+const createDonate = async (donate) => {
+    const donate = await Donate.create(donate);
+    return donate;
 };
 
 module.exports = {
-    create,
+    createDonate,
 }
