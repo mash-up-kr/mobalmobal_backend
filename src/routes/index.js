@@ -8,5 +8,6 @@ router.get('/', function (req, res, next) {
 
 router.use('/posts', require('./posts'));
 router.use('/users', require('./users'));
+router.use('/donate', require('./donate'));
 
 module.exports = router;
