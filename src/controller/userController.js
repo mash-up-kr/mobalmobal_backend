@@ -29,8 +29,8 @@ const login = async (req, res) => {
       message: '로그인에 성공하였습니다.',
     });
   } catch (err) {
-    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
@@ -55,9 +55,9 @@ const create = async (req, res) => {
       },
       code: statusCode.OK,
     });
-  } catch (error) {
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+  } catch (err) {
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: error.message,
     });
   }
@@ -65,18 +65,17 @@ const create = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const jwtToken = req.headers.authorization;
     const user_id = req.decode.user_id;
 
-    const user = await userService.getByUserId(userId);
+    const user = await userService.getByUserId(user_id);
 
     return res.status(statusCode.OK).json({
       code: statusCode.OK,
       data: { user },
     });
   } catch (err) {
-    res.status(err.status).json({
-      code: err.status,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
