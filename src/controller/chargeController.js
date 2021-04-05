@@ -20,8 +20,8 @@ const createCharge = async (req, res) => {
       data: { charge },
     });
   } catch (err) {
-    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }

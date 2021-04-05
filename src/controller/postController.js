@@ -18,8 +18,8 @@ const getAll = async (req, res) => {
       data: { posts },
     });
   } catch (err) {
-    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
@@ -39,8 +39,8 @@ const getById = async (req, res) => {
       data: { post },
     });
   } catch (err) {
-    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
@@ -64,17 +64,8 @@ const addPost = async (req, res) => {
       data: { post },
     });
   } catch (err) {
-    if (err.status) {
-      res.status(err.status).json({
-        code: err.status,
-        message: err.message,
-      });
-
-      return;
-    }
-
-    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
@@ -91,17 +82,8 @@ const getMyPost = async (req, res) => {
       data: { posts },
     });
   } catch (err) {
-    if (err.status) {
-      res.status(err.status).json({
-        code: err.status,
-        message: err.message,
-      });
-
-      return;
-    }
-
-    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-      code: statusCode.INTERNAL_SERVER_ERROR,
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
