@@ -1,4 +1,5 @@
 const Post = require('../model/Post');
+const User = require('../model/User');
 const { Op } = require('sequelize');
 
 const getAll = async ({ item, limit, order }) => {
@@ -41,6 +42,7 @@ const myPost = async (userId) => {
       user_id: userId,
     },
     order: [['createdAt', 'DESC']],
+    include: [{ model: User, as: 'user' }],
   });
 
   return posts;
