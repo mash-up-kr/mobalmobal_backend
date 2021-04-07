@@ -59,7 +59,7 @@ module.exports = class Post extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'user_id' });
-    this.hasMany(models.Donate, { foreignKey: 'post_id', sourceKey: 'post_id' });
+    this.belongsTo(models.User, { as: 'user', foreignKey: 'user_id', targetKey: 'user_id' });
+    this.hasMany(models.Donate, { as: 'post', foreignKey: 'post_id', sourceKey: 'post_id' });
   }
 };
