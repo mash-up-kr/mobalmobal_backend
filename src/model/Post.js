@@ -26,6 +26,11 @@ module.exports = class Post extends Sequelize.Model {
           type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,
         },
+        current_amount: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          allowNull: false,
+          defaultValue: 0,
+        },
         started_at: {
           type: Sequelize.DATE,
           allowNull: false,
