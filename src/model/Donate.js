@@ -19,7 +19,7 @@ module.exports = class Donate extends Sequelize.Model {
           allowNull: false,
         },
         amount: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,
         },
       },
