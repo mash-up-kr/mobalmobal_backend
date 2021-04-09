@@ -1,5 +1,4 @@
 const Post = require('../model/Post');
-const User = require('../model/User');
 const { Op } = require('sequelize');
 const moment = require('moment');
 
@@ -34,19 +33,28 @@ const PostStatusFilter = {
 };
 
 const getAll = async ({ item, limit, order }) => {
-  let where = {};
-  if (order === 'DESC') {
-    where = {
-      post_id: {
-        [Op.lt]: item,
-      },
+  let where = {
+    started_at: {
+      [Op.lte]: moment().tz('Asia/Seoul').toDate(),
+    },
+  }
+  if ( item === -1 ){
+    item = await Post.findOne({
+      attributes: ['post_id'],
+      order: [['post_id', order]],
+      limit: 1,
+    });
+    item = item.post_id;
+  }
+  if ( order === 'DESC') {
+    where.post_id = {
+      [Op.lte] : item,
     };
   }
   const posts = await Post.findAll({
     where,
-    order: [['createdAt', order]],
+    order: [['post_id', order]],
     limit: parseInt(limit),
-    offset: parseInt(item),
   });
   return posts;
 };
