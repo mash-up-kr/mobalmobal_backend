@@ -74,8 +74,9 @@ const addPost = async (req, res) => {
 const getMyPost = async (req, res) => {
   try {
     const user_id = req.decode.user_id;
+    const filter = req.body.filter;
 
-    const posts = await postService.myPost(user_id);
+    const posts = await postService.myPost(filter, user_id);
 
     res.status(statusCode.OK).json({
       code: statusCode.OK,
