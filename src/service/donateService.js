@@ -33,12 +33,7 @@ const getMyDonate = async (filter, user_id) => {
         where: {
           ...generatePostFilter(filter),
         },
-        attributes: [],
         as: 'post',
-      },
-      {
-        model: User,
-        as: 'user',
       },
     ],
   });
