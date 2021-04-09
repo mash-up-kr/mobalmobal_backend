@@ -1,7 +1,6 @@
 const Donate = require('../model/Donate');
 const Post = require('../model/Post');
-const { Op } = require('sequelize');
-const moment = require('moment');
+const { generatePostFilter } = require('./postService');
 
 const createDonate = async (donate) => {
   const donateDoc = await Donate.create(donate);
@@ -22,7 +21,7 @@ const createDonate = async (donate) => {
   return donateDoc;
 };
 
-const getMyDonate = async (user_id) => {
+const getMyDonate = async (filter, user_id) => {
   const donate = await Donate.findAll({
     where: {
       user_id,
@@ -31,12 +30,7 @@ const getMyDonate = async (user_id) => {
       {
         model: Post,
         where: {
-          started_at: {
-            [Op.lte]: moment().tz('Asia/Seoul').toDate(),
-          },
-          end_at: {
-            [Op.gte]: moment().tz('Asia/Seoul').toDate(),
-          },
+          ...generatePostFilter(filter),
         },
         attributes: [],
       },

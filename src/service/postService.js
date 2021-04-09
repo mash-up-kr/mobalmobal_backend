@@ -1,6 +1,37 @@
 const Post = require('../model/Post');
 const User = require('../model/User');
 const { Op } = require('sequelize');
+const moment = require('moment');
+
+const PostStatus = {
+  BEFORE: 'BEFORE',
+  IN_PROGRESS: 'IN_PROGRESS',
+  EXPIRED: 'EXPIRED',
+};
+
+const PostStatusFilter = {
+  [PostStatus.BEFORE]: {
+    started_at: {
+      [Op.gte]: moment().tz('Asia/Seoul').toDate(),
+    },
+  },
+  [PostStatus.IN_PROGRESS]: {
+    started_at: {
+      [Op.lte]: moment().tz('Asia/Seoul').toDate(),
+    },
+    end_at: {
+      [Op.gte]: moment().tz('Asia/Seoul').toDate(),
+    },
+  },
+  [PostStatus.EXPIRED]: {
+    started_at: {
+      [Op.lte]: moment().tz('Asia/Seoul').toDate(),
+    },
+    end_at: {
+      [Op.lte]: moment().tz('Asia/Seoul').toDate(),
+    },
+  },
+};
 
 const getAll = async ({ item, limit, order }) => {
   let where = {};
@@ -36,9 +67,10 @@ const addPost = async (post) => {
   return postDoc;
 };
 
-const myPost = async (userId) => {
+const myPost = async (filter, userId) => {
   const posts = await Post.findAll({
     where: {
+      ...generatePostFilter(filter),
       user_id: userId,
     },
     order: [['createdAt', 'DESC']],
@@ -48,9 +80,24 @@ const myPost = async (userId) => {
   return posts;
 };
 
+const generatePostFilter = (postFilter) => {
+  let filter = {};
+
+  if (!postFilter) {
+    return filter;
+  }
+
+  if (postFilter.status) {
+    filter = { ...filter, ...PostStatusFilter[postFilter.status] };
+  }
+
+  return filter;
+};
+
 module.exports = {
   getAll,
   getById,
   addPost,
   myPost,
+  generatePostFilter,
 };
