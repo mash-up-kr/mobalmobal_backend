@@ -25,6 +25,26 @@ const createDonate = async (req, res) => {
   }
 };
 
+const myDonate = async (req, res) => {
+  try {
+    const user_id = req.decode.user_id;
+    const donate = await donateService.getMyDonate(user_id);
+
+    res.status(statusCode.OK).json({
+      code: statusCode.OK,
+      data: {
+        donate,
+      },
+    });
+  } catch (err) {
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   createDonate,
+  myDonate,
 };
