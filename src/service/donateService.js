@@ -1,5 +1,6 @@
 const Donate = require('../model/Donate');
 const Post = require('../model/Post');
+const User = require('../model/User');
 const { generatePostFilter } = require('./postService');
 
 const createDonate = async (donate) => {
@@ -33,6 +34,11 @@ const getMyDonate = async (filter, user_id) => {
           ...generatePostFilter(filter),
         },
         attributes: [],
+        as: 'post',
+      },
+      {
+        model: User,
+        as: 'user',
       },
     ],
   });
