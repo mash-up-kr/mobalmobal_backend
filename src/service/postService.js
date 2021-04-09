@@ -1,4 +1,5 @@
 const Post = require('../model/Post');
+const User = require('../model/User');
 const { Op } = require('sequelize');
 const moment = require('moment');
 
@@ -37,8 +38,8 @@ const getAll = async ({ item, limit, order }) => {
     started_at: {
       [Op.lte]: moment().tz('Asia/Seoul').toDate(),
     },
-  }
-  if ( item === -1 ){
+  };
+  if (item === -1) {
     item = await Post.findOne({
       attributes: ['post_id'],
       order: [['post_id', order]],
@@ -46,9 +47,9 @@ const getAll = async ({ item, limit, order }) => {
     });
     item = item.post_id;
   }
-  if ( order === 'DESC') {
+  if (order === 'DESC') {
     where.post_id = {
-      [Op.lte] : item,
+      [Op.lte]: item,
     };
   }
   const posts = await Post.findAll({
