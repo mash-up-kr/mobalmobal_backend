@@ -50,6 +50,7 @@ const getById = async (req, res) => {
 const addPost = async (req, res) => {
   try {
     const postParams = req.body;
+    const post_image = req.file.location;
     const user_id = req.decode.user_id;
 
     const { title, goal, started_at, end_at } = postParams;
@@ -58,7 +59,7 @@ const addPost = async (req, res) => {
       throw new InvalidParameterError();
     }
 
-    const post = await postService.addPost({ ...postParams, user_id });
+    const post = await postService.addPost({ ...postParams, user_id, post_image });
 
     res.status(statusCode.OK).json({
       code: statusCode.OK,
