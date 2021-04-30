@@ -55,7 +55,7 @@ const addPost = async (req, res) => {
 
     const { title, goal, started_at, end_at } = postParams;
 
-    if (!title || !goal || !started_at || !end_at || !post_image) {
+    if (!title || !goal || !started_at || !end_at) {
       throw new InvalidParameterError();
     }
 
