@@ -36,7 +36,7 @@ const PostStatusFilter = {
 const getAll = async ({ item, limit, order }) => {
   let where = {
     started_at: {
-      [Op.lte]: moment().tz('Asia/Seoul').toDate(),
+      [Op.gte]: moment().tz('Asia/Seoul').toDate(),
     },
   };
   if (item === -1) {
