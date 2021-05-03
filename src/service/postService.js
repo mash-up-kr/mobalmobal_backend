@@ -65,6 +65,7 @@ const getById = async (post_id) => {
     where: {
       post_id,
     },
+    include: [{ model: User, as: 'user' }],
   });
 
   return post;
