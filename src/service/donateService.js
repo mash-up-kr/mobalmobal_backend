@@ -22,7 +22,7 @@ const createDonate = async (donate) => {
   return donateDoc;
 };
 
-const getMyDonate = async (filter, user_id) => {
+const getMyDonate = async (status, user_id) => {
   const donate = await Donate.findAll({
     where: {
       user_id,
@@ -31,7 +31,7 @@ const getMyDonate = async (filter, user_id) => {
       {
         model: Post,
         where: {
-          ...generatePostFilter(filter),
+          ...generatePostFilter(status),
         },
         as: 'post',
       },

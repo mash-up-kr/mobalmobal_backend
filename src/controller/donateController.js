@@ -28,8 +28,8 @@ const createDonate = async (req, res) => {
 const myDonate = async (req, res) => {
   try {
     const user_id = req.decode.user_id;
-    const filter = req.body.filter;
-    const donate = await donateService.getMyDonate(filter, user_id);
+    const { status } = req.query;
+    const donate = await donateService.getMyDonate(status, user_id);
 
     res.status(statusCode.OK).json({
       code: statusCode.OK,
