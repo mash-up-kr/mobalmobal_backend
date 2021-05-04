@@ -5,7 +5,7 @@ const InvalidParameterError = require('../errors/InvalidParameterError');
 const getAll = async (req, res) => {
   try {
     let { item, limit, order } = req.query;
-    
+
     item = item || -1;
     limit = limit || 30;
     order = order || 'DESC';
@@ -76,9 +76,9 @@ const addPost = async (req, res) => {
 const getMyPost = async (req, res) => {
   try {
     const user_id = req.decode.user_id;
-    const filter = req.body.filter;
+    const { status } = req.query;
 
-    const posts = await postService.myPost(filter, user_id);
+    const posts = await postService.myPost(status, user_id);
 
     res.status(statusCode.OK).json({
       code: statusCode.OK,

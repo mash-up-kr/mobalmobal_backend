@@ -77,10 +77,12 @@ const addPost = async (post) => {
   return postDoc;
 };
 
-const myPost = async (filter, userId) => {
+const myPost = async (status, userId) => {
+  console.log('...PostStatusFilter[status],', PostStatusFilter[status]);
+
   const posts = await Post.findAll({
     where: {
-      ...generatePostFilter(filter),
+      ...PostStatusFilter[status],
       user_id: userId,
     },
     order: [['createdAt', 'DESC']],
@@ -98,7 +100,7 @@ const generatePostFilter = (postFilter) => {
   }
 
   if (postFilter.status) {
-    filter = { ...filter, ...PostStatusFilter[postFilter.status] };
+    filter = { ...filter, ...PostStatusFilter[status] };
   }
 
   return filter;
