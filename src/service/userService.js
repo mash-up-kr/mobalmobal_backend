@@ -1,5 +1,7 @@
 const User = require('../model/User');
 
+const UPDATE_SUCCESS = 1;
+
 const getByFireStoreId = async (fireStoreId) => {
   const user = await User.findOne({
     where: {
@@ -49,10 +51,23 @@ const insertUser = async ({ nickname, cash, provider, fireStoreId, ...values }) 
   return user;
 };
 
+const updateUser = async (nextUser, userId) => {
+  const [status] = await User.update({ ...nextUser }, { where: { user_id: userId } });
+
+  if (status === UPDATE_SUCCESS) {
+    const nextUser = await getByUserId(userId);
+
+    return nextUser;
+  } else {
+    throw new Error('해당 유저를 찾을 수 없습니다.');
+  }
+};
+
 module.exports = {
   getByFireStoreId,
   insertUser,
   getByUserId,
+  updateUser,
 };
 
 const camelToSnakeCase = (params) => {

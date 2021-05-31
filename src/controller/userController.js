@@ -44,7 +44,7 @@ const create = async (req, res) => {
       throw new InvalidParameterError();
     }
 
-    const result = await userService.insertUser({ nickname, cash, provider, fireStoreId, ...values });
+    await userService.insertUser({ nickname, cash, provider, fireStoreId, ...values });
 
     // 로그인 로직
     const user = await userService.getByFireStoreId(fireStoreId);
@@ -81,8 +81,28 @@ const getUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { next_user: nextUser } = req.body;
+    const user_id = req.decode.user_id;
+
+    const user = await userService.updateUser(nextUser, user_id);
+
+    return res.status(statusCode.OK).json({
+      code: statusCode.OK,
+      data: { user },
+    });
+  } catch (err) {
+    res.status(err.status || statusCode.INTERNAL_SERVER_ERROR).json({
+      code: err.status || statusCode.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   login,
   create,
   getUser,
+  updateUser,
 };
